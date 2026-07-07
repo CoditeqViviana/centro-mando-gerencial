@@ -10,7 +10,7 @@
 <!-- ===== DATOS EN VIVO (fuente única, visible para todo el equipo) ===== -->
 <script type="application/json" id="seed-data">
 {
-  "version": 1783085760417,
+  "version": 1783461632221,
   "areas": [
     {
       "id": "manufactura",
@@ -96,6 +96,18 @@
         {
           "name": "Control Contratos Estrategicos",
           "url": "https://tablero-indicadores-por-contrato.onrender.com"
+        }
+      ]
+    },
+    {
+      "id": "amrb6la4q93",
+      "name": "Proyectos",
+      "color": "#16A085",
+      "icon": "gauge",
+      "boards": [
+        {
+          "name": "Seguimiento Proyectos",
+          "url": "https://spontaneous-fairy-458a1d.netlify.app"
         }
       ]
     }
@@ -270,8 +282,14 @@
     .brow .bname,.brow .burl{flex:1 1 100%}
   }
   @media (prefers-reduced-motion:reduce){ *{transition:none !important} }
+  #guide code{background:#f1eef1; color:#6f4ca6; padding:1px 6px; border-radius:5px; font-size:12.5px; font-family:ui-monospace,Menlo,Consolas,monospace}
+  #guide ol{margin:0; padding-left:20px}
+  #guide ol li{margin-bottom:11px}
+  #guide ol li:last-child{margin-bottom:0}
+  .callout{margin-top:16px; background:#f3eefb; border:1px solid #e2d5f5; border-radius:10px; padding:12px 14px; font-size:13.5px}
+  .callout b{color:#6f4ca6}
 </style>
-<script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script><script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script><script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script></head>
+<script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script><script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script><script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script><script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script></head>
 <body class="" style="">
 
   <div class="topbar">
@@ -283,13 +301,17 @@
       <span class="brand-text">Centro de Mando Gerencial<small>Tableros estratégicos</small></span>
     </a>
     <div class="tools">
+      <button class="btn" id="helpBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        ¿Cómo actualizo?
+      </button>
       <button class="btn primary" id="publishBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="#3a323a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
         Descargar para publicar
       </button>
-      <button class="btn primary" id="cfgToggle">
+      <button class="btn" id="cfgToggle">
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-        <span id="cfgLabel">Listo</span>
+        <span id="cfgLabel">Configurar</span>
       </button>
     </div>
   </div>
@@ -351,6 +373,32 @@
         <button class="danger" id="edDelete">Eliminar área</button>
         <span class="spacer"></span>
         <button class="save" id="edSave">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Guía: cómo actualizar en GitHub -->
+  <div class="modal" id="guide">
+    <div class="card" style="max-width:580px">
+      <div class="chead">
+        <span class="swatch" style="background:#7e5bb5"></span>
+        <h3>Cómo actualizar la información</h3>
+        <button class="xbtn" id="guideClose">&times;</button>
+      </div>
+      <div class="cbody" style="line-height:1.55; font-size:14px; color:#3a323a">
+        <p style="margin:0 0 14px">Cuando agregues o cambies un tablero, sigue estos pasos para que <b>todo el equipo</b> vea los cambios:</p>
+        <ol>
+          <li><b>Edita.</b> Pulsa <b>Configurar</b> (arriba a la derecha), abre el área y agrega o modifica los tableros. Pulsa <b>Guardar</b>.</li>
+          <li><b>Descarga.</b> Pulsa <b>Descargar para publicar</b>. Se baja un archivo con todos los cambios ya incluidos.</li>
+          <li><b>Sube a GitHub.</b> Entra a tu repositorio <code>centro-mando-gerencial</code> &rarr; <b>Add file</b> &rarr; <b>Upload files</b> y arrastra el archivo descargado.</li>
+          <li><b>Reemplaza.</b> Como ya existe <code>index.html</code>, deja que GitHub lo <b>reemplace</b>. Escribe un comentario y pulsa <b>Commit changes</b>.</li>
+          <li><b>Verifica.</b> Espera 1&ndash;2 minutos, abre el enlace y recarga con <b>Ctrl + F5</b>. Pide a quien lo consulte que también recargue con <b>Ctrl + F5</b>.</li>
+        </ol>
+        <div class="callout">
+          <b>Regla de oro</b><br>
+          No renombres el archivo en Windows (crea nombres como <i>index.html.html</i> o <i>(3)</i>). Si necesitas renombrar, hazlo <b>dentro de GitHub</b> con el lápiz. En el repositorio debe quedar <b>un solo</b> archivo llamado <code>index.html</code>.
+        </div>
+        <p style="margin:14px 0 0; font-size:13px; opacity:.75">El enlace para compartir siempre es el mismo:<br><b>coditeqviviana.github.io/centro-mando-gerencial/</b></p>
       </div>
     </div>
   </div>
@@ -574,7 +622,7 @@
     var body=clone.querySelector("body"); if(body) body.classList.remove("config");
     var g=clone.querySelector("#grid"); if(g) g.innerHTML="";
     var fr=clone.querySelector("#vFrame"); if(fr) fr.setAttribute("src","");
-    ["#submenu","#editor","#viewer"].forEach(function(s){ var n=clone.querySelector(s); if(n) n.classList.remove("open"); });
+    ["#submenu","#editor","#viewer","#guide"].forEach(function(s){ var n=clone.querySelector(s); if(n) n.classList.remove("open"); });
     var smg=clone.querySelector("#smGrid"); if(smg) smg.innerHTML="";
     var t=clone.querySelector("#toast"); if(t){ t.textContent=""; t.classList.remove("show"); }
     var html="<!DOCTYPE html>\n"+clone.outerHTML;
@@ -586,9 +634,17 @@
 
   function escapeHtml(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
 
+  // ----- guide -----
+  var guide=el("guide");
+  el("helpBtn").addEventListener("click", function(){ guide.classList.add("open"); });
+  el("guideClose").addEventListener("click", function(){ guide.classList.remove("open"); });
+  guide.addEventListener("click", function(e){ if(e.target===guide) guide.classList.remove("open"); });
+  document.addEventListener("keydown", function(e){ if(e.key==="Escape" && guide.classList.contains("open")) guide.classList.remove("open"); });
+
   render();
 })();
 </script>
+
 
 
 
