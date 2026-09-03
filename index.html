@@ -309,8 +309,7 @@
   #guide ol li:last-child{margin-bottom:0}
   .callout{margin-top:16px; background:#f3eefb; border:1px solid #e2d5f5; border-radius:10px; padding:12px 14px; font-size:13.5px}
   .callout b{color:#6f4ca6}
-</style>
-<script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script><script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script><script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script><script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script><script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script><script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script><script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script><script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script><script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script><script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script><script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script><script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script><script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script><script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script><script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script><script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script><script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script><script src="chrome-extension://hmdmhilocobgohohpdpolmibjklfgkbi/pageScript.js"></script></head>
+</style></head>
 <body class="" style="">
 
   <div class="topbar">
@@ -534,10 +533,26 @@
 
   // ----- viewer -----
   var viewer=el("viewer"), vFrame=el("vFrame"), vFallback=el("vFallback"), currentUrl="";
+  /* Tableros que no se pueden incrustar.
+     El Centro de Operaciones bloquea a propósito que otra página lo
+     muestre dentro de un marco (X-Frame-Options), porque con la sesión
+     abierta un sitio contenedor podría superponer elementos y capturar
+     los clics. Para esos, se abre directo en una pestaña nueva. */
+  var NO_INCRUSTABLES = ["tablero-sistemas.web.app"];
+  function seIncrusta(url){
+    for(var i=0;i<NO_INCRUSTABLES.length;i++){
+      if(url.indexOf(NO_INCRUSTABLES[i])>=0) return false;
+    }
+    return true;
+  }
   function openBoard(a, b){
     var url=normUrl(b.url);
     if(!url){ toast("Ese tablero no tiene enlace todavía."); return; }
     currentUrl=url;
+    if(!seIncrusta(url)){
+      window.open(url,"_blank","noopener");
+      return;
+    }
     el("vSwatch").style.background=a.color;
     el("vTitle").textContent=a.name + (b.name? " · "+b.name : "");
     el("vUrl").textContent=url.replace(/^https?:\/\//,"");
@@ -665,9 +680,5 @@
   render();
 })();
 </script>
-
-
-
-
 
 </body></html>
