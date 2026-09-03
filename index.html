@@ -10,7 +10,7 @@
 <!-- ===== DATOS EN VIVO (fuente única, visible para todo el equipo) ===== -->
 <script type="application/json" id="seed-data">
 {
-  "version": 1788464900270,
+  "version": 1788500000000,
   "areas": [
     {
       "id": "manufactura",
@@ -101,6 +101,10 @@
         {
           "name": "Sistemas - Mesa de Ayuda",
           "url": "https://tablero-sistemas.web.app/"
+        },
+        {
+          "name": "Proyectos Indunnova",
+          "url": "https://claude.ai/code/artifact/ff6c4aa0-7962-4b16-b79c-3c365c1369e0"
         }
       ]
     },
@@ -538,7 +542,7 @@
      muestre dentro de un marco (X-Frame-Options), porque con la sesión
      abierta un sitio contenedor podría superponer elementos y capturar
      los clics. Para esos, se abre directo en una pestaña nueva. */
-  var NO_INCRUSTABLES = ["tablero-sistemas.web.app"];
+  var NO_INCRUSTABLES = ["tablero-sistemas.web.app", "claude.ai"];
   function seIncrusta(url){
     for(var i=0;i<NO_INCRUSTABLES.length;i++){
       if(url.indexOf(NO_INCRUSTABLES[i])>=0) return false;
